@@ -3,1369 +3,1647 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ikuwanne — Miniamkeuse & Monteuse</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>Ikuwanne — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 :root {
-  --red: #E8003D;
-  --red2: #FF1A53;
-  --bg: #080808;
-  --bg2: #0f0f0f;
-  --bg3: #161616;
-  --white: #F2F0EB;
-  --gray: #666;
-  --gray2: #333;
-  --border: #1c1c1c;
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --violet: #582BDF;
+  --violet-dark: #3A1A9E;
+  --violet-darker: #220E6B;
+  --violet-light: #7B52E8;
+  --violet-pale: #EDE8FD;
+  --violet-pale2: #F5F2FF;
+  --gold: #FFD21E;
+  --gold-dark: #C89E00;
+  --gold-pale: #FFF9D6;
+  --white: #FEFEFE;
+  --cream: #FAFAF7;
+  --gray-light: #F4F3F0;
+  --gray-mid: #E2E0D8;
+  --gray-dark: #6B6A66;
+  --text: #1A1730;
+  --text-muted: #6B6588;
+  --shadow: 0 8px 32px rgba(88,43,223,0.10);
+  --shadow-card: 0 4px 24px rgba(88,43,223,0.08), 0 1px 4px rgba(88,43,223,0.04);
+  --shadow-float: 0 16px 48px rgba(88,43,223,0.16), 0 4px 12px rgba(88,43,223,0.08);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-lg: 32px;
+  --radius-xl: 48px;
 }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
+
 body {
-  background: var(--bg);
-  color: var(--white);
-  font-family: var(--font-body);
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  color: var(--text);
   overflow-x: hidden;
 }
-a { color: inherit; text-decoration: none; }
-img { display: block; width: 100%; }
 
-/* GRAIN OVERLAY */
-body::after {
+h1, h2, h3, h4, h5 {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+}
+
+/* ---- NOISE TEXTURE ---- */
+body::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
-  z-index: 9990;
-  opacity: .025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 160px;
-}
-
-/* CURSOR */
-.cursor {
-  position: fixed;
-  width: 8px; height: 8px;
-  background: var(--red);
-  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: width .15s, height .15s;
-}
-.cursor-ring {
-  position: fixed;
-  width: 32px; height: 32px;
-  border: 1px solid rgba(232,0,61,0.45);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%,-50%);
-}
-.cursor.big { width: 5px; height: 5px; }
-.cursor-ring.big { width: 52px; height: 52px; border-color: var(--red); }
-
-/* PROGRESS */
-.progress-bar {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  background: var(--red);
-  z-index: 1000;
-  transition: width .08s;
+  opacity: 0.4;
 }
 
-/* NAV */
+/* ---- NAV ---- */
 nav {
   position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 500;
-  height: 62px;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid var(--gray-mid);
+  border-radius: 999px;
+  padding: 10px 28px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 6vw;
-  background: rgba(8,8,8,0.9);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
+  gap: 8px;
+  box-shadow: var(--shadow-float);
 }
-.logo {
-  font-family: var(--font-display);
-  font-size: 26px;
-  letter-spacing: 2px;
-  line-height: 1;
-}
-.logo span { color: var(--red); }
-.nav-links {
-  display: flex;
-  gap: 38px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-.nav-links a {
-  color: var(--gray);
-  transition: color .2s;
-  position: relative;
-}
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px; left: 0;
-  width: 0; height: 1px;
-  background: var(--red);
-  transition: width .25s;
-}
-.nav-links a:hover { color: var(--white); }
-.nav-links a:hover::after { width: 100%; }
-.nav-cta {
-  background: var(--red);
-  color: var(--white);
-  padding: 9px 22px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-radius: 1px;
-  transition: opacity .2s, transform .15s;
-}
-.nav-cta:hover { opacity: .85; transform: scale(1.03); }
 
-/* HERO */
+.nav-logo {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--violet);
+  margin-right: 12px;
+  text-decoration: none;
+}
+
+.nav-logo span {
+  background: var(--gold);
+  color: var(--violet-darker);
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+nav a {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: all 0.2s;
+}
+
+nav a:hover {
+  background: var(--violet-pale);
+  color: var(--violet);
+}
+
+.nav-cta {
+  background: var(--violet) !important;
+  color: white !important;
+  margin-left: 8px;
+}
+
+.nav-cta:hover {
+  background: var(--violet-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(88,43,223,0.3) !important;
+}
+
+/* ---- HERO ---- */
 .hero {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   align-items: center;
-  padding: 80px 6vw 0;
-  gap: 60px;
+  justify-content: center;
+  padding: 120px 40px 80px;
   position: relative;
   overflow: hidden;
 }
-.hero::before {
-  content: '';
+
+.hero-bg-blob {
   position: absolute;
-  bottom: -100px; right: -100px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(232,0,61,0.07) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
   pointer-events: none;
 }
 
-.hero-left { position: relative; z-index: 1; }
+.hero-bg-blob.b1 {
+  width: 600px; height: 600px;
+  background: var(--violet);
+  top: -100px; left: -100px;
+}
+.hero-bg-blob.b2 {
+  width: 400px; height: 400px;
+  background: var(--gold);
+  bottom: 0; right: -80px;
+}
+.hero-bg-blob.b3 {
+  width: 300px; height: 300px;
+  background: var(--violet-light);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.floating-deco {
+  position: absolute;
+  pointer-events: none;
+  animation: floatY 4s ease-in-out infinite;
+  user-select: none;
+  font-size: 28px;
+}
+.floating-deco:nth-child(2) { animation-delay: 0.5s; }
+.floating-deco:nth-child(3) { animation-delay: 1s; }
+.floating-deco:nth-child(4) { animation-delay: 1.5s; }
+.floating-deco:nth-child(5) { animation-delay: 2s; }
+.floating-deco:nth-child(6) { animation-delay: 2.5s; }
+.floating-deco:nth-child(7) { animation-delay: 3s; }
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(5deg); }
+}
+
+.hero-inner {
+  max-width: 1100px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-text { }
+
 .hero-tag {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(232,0,61,0.1);
-  border: 1px solid rgba(232,0,61,0.25);
-  color: var(--red2);
-  font-size: 10px;
+  gap: 8px;
+  background: var(--violet-pale);
+  border: 1.5px solid rgba(88,43,223,0.2);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  padding: 7px 14px;
-  border-radius: 2px;
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: fadeUp .5s .1s forwards;
+  color: var(--violet);
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease both;
 }
-.hero-tag-dot {
-  width: 5px; height: 5px;
-  background: var(--red);
-  border-radius: 50%;
-  animation: blink 1.4s infinite;
+
+.hero-tag::before {
+  content: '✦';
+  color: var(--gold);
+  font-size: 11px;
 }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
 .hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(64px, 9vw, 130px);
-  line-height: .88;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 30px;
-  opacity: 0;
-  animation: fadeUp .6s .25s forwards;
-}
-.hero-title .outline {
-  -webkit-text-stroke: 1.5px var(--white);
-  color: transparent;
-}
-.hero-title em {
-  color: var(--red);
-  font-style: normal;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 16px;
+  animation: fadeUp 0.6s 0.1s ease both;
 }
 
-.hero-sub {
-  font-size: 16px;
-  color: var(--gray);
-  line-height: 1.75;
-  max-width: 400px;
-  margin-bottom: 44px;
-  font-weight: 300;
-  opacity: 0;
-  animation: fadeUp .5s .4s forwards;
+.hero-title .name-highlight {
+  background: linear-gradient(135deg, var(--violet) 0%, var(--violet-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.hero-sub strong { color: var(--white); font-weight: 500; }
+
+.hero-roles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-role {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-role .badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--violet-darker);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.hero-role .badge.purple {
+  background: var(--violet);
+  color: white;
+}
+
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  max-width: 440px;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
 
 .hero-btns {
   display: flex;
-  gap: 14px;
-  opacity: 0;
-  animation: fadeUp .5s .55s forwards;
-}
-.btn-red {
-  background: var(--red);
-  color: var(--white);
-  padding: 14px 36px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-radius: 1px;
-  transition: opacity .2s, transform .15s;
-}
-.btn-red:hover { opacity: .85; transform: scale(1.03); }
-.btn-ghost {
-  border: 1px solid var(--gray2);
-  color: var(--gray);
-  padding: 14px 32px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-radius: 1px;
-  transition: border-color .2s, color .2s;
-}
-.btn-ghost:hover { border-color: var(--white); color: var(--white); }
-
-/* HERO RIGHT — visual card stack */
-.hero-right {
-  position: relative;
-  height: 520px;
-  opacity: 0;
-  animation: fadeUp .7s .6s forwards;
-}
-.hero-card {
-  position: absolute;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  border-radius: 3px;
-}
-.hero-card-main {
-  width: 100%;
-  height: 360px;
-  top: 0; left: 0;
-  background: var(--bg3);
-}
-.hero-card-sm1 {
-  width: 48%;
-  height: 170px;
-  bottom: 0; left: 0;
-  background: var(--bg2);
-}
-.hero-card-sm2 {
-  width: 48%;
-  height: 170px;
-  bottom: 0; right: 0;
-  background: var(--bg2);
-}
-.card-label {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 12px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gray);
-}
-.card-label span { color: var(--red); }
-.card-inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 64px;
-  letter-spacing: 2px;
-  color: rgba(255,255,255,0.04);
-  flex-direction: column;
-  gap: 6px;
-}
-.card-inner-sm {
-  width: 100%; height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 36px;
-  letter-spacing: 2px;
-  color: rgba(255,255,255,0.05);
-}
-/* animated play icon overlay */
-.play-icon {
-  width: 52px; height: 52px;
-  border: 2px solid rgba(232,0,61,0.5);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  transition: border-color .25s, transform .25s;
-}
-.play-icon::after {
-  content: '';
-  width: 0;
-  height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
-  border-left: 16px solid rgba(232,0,61,0.7);
-  margin-left: 4px;
-}
-.hero-card-main:hover .play-icon {
-  border-color: var(--red);
-  transform: translate(-50%,-50%) scale(1.1);
-}
-.red-badge {
-  position: absolute;
-  top: 14px; left: 14px;
-  background: var(--red);
-  color: var(--white);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 2px;
+  gap: 12px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.4s ease both;
 }
 
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-  from { opacity: 0; transform: translateY(24px); }
-}
-
-/* MARQUEE */
-.marquee-wrap {
-  overflow: hidden;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 16px 0;
-}
-.marquee-track {
-  display: flex;
-  white-space: nowrap;
-  animation: marquee 28s linear infinite;
-}
-.marquee-track.rev { animation-direction: reverse; animation-duration: 36s; }
-.marquee-track:hover { animation-play-state: paused; }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.m-item {
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 18px;
-  padding: 0 32px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gray);
-}
-.m-item.hot { color: var(--red2); }
-.m-dot { width: 4px; height: 4px; background: var(--red); border-radius: 50%; flex-shrink: 0; }
-
-/* SECTIONS */
-.section { padding: 110px 6vw; }
-.sec-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--red);
-  margin-bottom: 16px;
-}
-.sec-title {
-  font-family: var(--font-display);
-  font-size: clamp(38px, 6vw, 80px);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: .92;
-  margin-bottom: 70px;
-}
-.sec-title em { color: var(--red); font-style: normal; }
-
-/* WORKS GRID */
-.works-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 12px;
-}
-.w-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  overflow: hidden;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
   cursor: pointer;
-  border-radius: 2px;
-  transition: border-color .3s, transform .3s;
-  position: relative;
-}
-.w-card:hover { border-color: var(--red); transform: translateY(-5px); }
-.w-card:nth-child(1) { grid-column: span 8; }
-.w-card:nth-child(2) { grid-column: span 4; }
-.w-card:nth-child(3) { grid-column: span 4; }
-.w-card:nth-child(4) { grid-column: span 5; }
-.w-card:nth-child(5) { grid-column: span 3; }
-
-.w-thumb {
-  aspect-ratio: 16/9;
-  width: 100%;
+  border: none;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.w-thumb-bg {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: clamp(36px,5vw,80px);
-  letter-spacing: 2px;
-  transition: transform .4s;
+
+.btn-primary {
+  background: var(--violet);
+  color: white;
+  box-shadow: 0 4px 20px rgba(88,43,223,0.35);
 }
-.w-card:hover .w-thumb-bg { transform: scale(1.07); }
-.w-type {
-  position: absolute;
-  top: 12px; left: 12px;
-  background: var(--red);
-  color: var(--white);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 3px 9px;
-  border-radius: 1px;
-  z-index: 2;
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(88,43,223,0.45);
+  background: var(--violet-light);
 }
-.w-play {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .25s;
-  background: rgba(0,0,0,0.3);
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--violet-darker);
+  box-shadow: 0 4px 16px rgba(255,210,30,0.4);
 }
-.w-card:hover .w-play { opacity: 1; }
-.w-play-btn {
-  width: 44px; height: 44px;
-  border: 1px solid var(--red);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
+
+.btn-gold:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 28px rgba(255,210,30,0.5);
 }
-.w-play-btn::after {
-  content: '';
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 12px solid var(--red);
-  margin-left: 3px;
+
+.btn-ghost {
+  background: white;
+  color: var(--violet);
+  border: 2px solid var(--gray-mid);
 }
-.w-body {
-  padding: 16px 18px 18px;
+
+.btn-ghost:hover {
+  border-color: var(--violet);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+/* Hero illustration card */
+.hero-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  border: 2px solid var(--gray-mid);
+  overflow: hidden;
+  animation: fadeUp 0.8s 0.2s ease both;
+  position: relative;
+}
+
+.hero-card-header {
+  background: linear-gradient(135deg, var(--violet) 0%, var(--violet-light) 100%);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  height: 260px;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
 }
-.w-title {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: -.2px;
-  margin-bottom: 4px;
-}
-.w-meta {
-  font-size: 10px;
-  color: var(--gray);
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-.w-arrow {
-  color: var(--red);
-  font-size: 20px;
-  transition: transform .2s;
-}
-.w-card:hover .w-arrow { transform: translate(3px,-3px); }
 
-/* ABOUT */
-.about-layout {
-  display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 80px;
-  align-items: start;
+.hero-card-header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
 }
-.about-photo {
-  position: relative;
+
+.hero-card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -30px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,210,30,0.15);
 }
-.about-frame {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  aspect-ratio: 3/4;
+
+.avatar-placeholder {
+  width: 160px;
+  height: 200px;
+  background: rgba(255,255,255,0.12);
+  border-radius: var(--radius);
+  border: 3px solid rgba(255,255,255,0.25);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-  border-radius: 2px;
-}
-.about-initials {
-  font-family: var(--font-display);
-  font-size: 110px;
-  letter-spacing: 4px;
-  color: #1a1a1a;
-  z-index: 1;
-}
-.about-name-ghost {
-  position: absolute;
-  bottom: 16px; left: 16px;
-  font-family: var(--font-display);
-  font-size: 52px;
-  letter-spacing: 3px;
-  color: rgba(232,0,61,0.1);
-  line-height: 1;
-}
-.about-corner {
-  position: absolute;
-  top: 16px; right: 16px;
-  width: 48px; height: 48px;
-  border-top: 2px solid var(--red);
-  border-right: 2px solid var(--red);
-  opacity: .4;
-}
-.about-corner2 {
-  position: absolute;
-  bottom: 16px; left: 16px;
-  width: 48px; height: 48px;
-  border-bottom: 2px solid var(--red);
-  border-left: 2px solid var(--red);
-  opacity: .4;
-}
-.about-stat-row {
-  display: flex;
-  gap: 0;
-  margin-top: 16px;
-  border: 1px solid var(--border);
-}
-.about-stat {
-  flex: 1;
-  padding: 18px 16px;
-  text-align: center;
-  border-right: 1px solid var(--border);
-}
-.about-stat:last-child { border-right: none; }
-.about-stat-n {
-  font-family: var(--font-display);
-  font-size: 32px;
-  letter-spacing: 1px;
-  color: var(--white);
-  line-height: 1;
-}
-.about-stat-n span { color: var(--red); }
-.about-stat-l {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-top: 4px;
-}
-.about-text p {
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--gray);
-  margin-bottom: 20px;
-  font-weight: 300;
-}
-.about-text p strong { color: var(--white); font-weight: 500; }
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 36px;
-}
-.tool-item {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-radius: 2px;
-  transition: border-color .2s;
-}
-.tool-item:hover { border-color: var(--red); }
-.tool-icon {
-  width: 8px; height: 8px;
-  background: var(--red);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.tool-name {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--white);
-}
-.tool-type {
-  font-size: 10px;
-  color: var(--gray);
-  margin-top: 1px;
+  z-index: 2;
+  backdrop-filter: blur(10px);
 }
 
-/* SERVICES */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--border);
-}
-.svc {
-  background: var(--bg);
-  padding: 46px 40px;
-  position: relative;
-  overflow: hidden;
-  transition: background .25s;
-}
-.svc::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 2px; height: 0;
-  background: var(--red);
-  transition: height .4s;
-}
-.svc:hover { background: var(--bg2); }
-.svc:hover::before { height: 100%; }
-.svc-num {
-  font-family: var(--font-display);
-  font-size: 48px;
-  letter-spacing: 2px;
-  color: rgba(232,0,61,0.12);
+.avatar-emoji {
+  font-size: 64px;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
-.svc-title {
-  font-size: 20px;
+
+.avatar-label {
+  font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  letter-spacing: -.3px;
-  margin-bottom: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
-.svc-desc {
+
+.hero-card-body {
+  padding: 24px;
+}
+
+.card-name {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.card-title {
   font-size: 14px;
-  color: var(--gray);
-  line-height: 1.8;
-  font-weight: 300;
+  font-weight: 600;
+  color: var(--violet);
+  margin-bottom: 16px;
 }
-.svc-tags {
+
+.card-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 20px;
-}
-.svc-tag {
-  border: 1px solid var(--gray2);
-  color: var(--gray);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 1px;
+  margin-bottom: 16px;
 }
 
-/* PROCESS */
-.process-steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-}
-.step {
-  background: var(--bg);
-  padding: 40px 32px;
-  position: relative;
-  transition: background .2s;
-}
-.step:hover { background: var(--bg2); }
-.step-n {
-  font-family: var(--font-display);
-  font-size: 64px;
-  letter-spacing: 2px;
-  color: rgba(232,0,61,0.08);
-  line-height: 1;
-  margin-bottom: 18px;
-}
-.step-title {
-  font-size: 17px;
+.card-tag {
+  background: var(--violet-pale);
+  color: var(--violet);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: -.3px;
 }
-.step-desc { font-size: 13px; color: var(--gray); line-height: 1.75; font-weight: 300; }
 
-/* TESTI */
-.testi-grid {
+.card-tag.gold {
+  background: var(--gold-pale);
+  color: var(--gold-dark);
+}
+
+.card-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 12px;
+  border-top: 1.5px solid var(--gray-mid);
+  padding-top: 16px;
 }
-.testi {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 34px 28px;
-  border-radius: 2px;
-  transition: border-color .3s, transform .25s;
-}
-.testi:hover { border-color: var(--red); transform: translateY(-3px); }
-.testi-stars { color: var(--red); letter-spacing: 3px; font-size: 13px; margin-bottom: 20px; }
-.testi-quote {
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--gray);
-  font-style: italic;
-  margin-bottom: 26px;
-  font-weight: 300;
-}
-.testi-quote strong { color: var(--white); font-style: normal; font-weight: 500; }
-.testi-author { display: flex; align-items: center; gap: 12px; }
-.testi-av {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: var(--red);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: var(--white); flex-shrink: 0;
-}
-.testi-n { font-size: 13px; font-weight: 700; }
-.testi-r { font-size: 11px; color: var(--gray); letter-spacing: .5px; margin-top: 2px; }
 
-/* CTA */
-.cta-block {
-  background: var(--red);
-  padding: 110px 6vw;
+.card-stat { text-align: center; }
+.card-stat-num {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--violet);
+}
+.card-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ---- SECTION ---- */
+section {
+  padding: 100px 40px;
+  position: relative;
+}
+
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--violet-pale);
+  border: 1.5px solid rgba(88,43,223,0.15);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--violet);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 48px);
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.section-title .hl {
+  color: var(--violet);
+}
+
+.section-title .hl-gold {
+  color: var(--gold-dark);
+  background: var(--gold);
+  padding: 0 8px;
+  border-radius: 8px;
+}
+
+.section-desc {
+  font-size: 17px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 540px;
+  margin-bottom: 52px;
+}
+
+/* ---- ABOUT ---- */
+.about-section { background: white; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-illustration {
+  background: var(--violet-pale2);
+  border-radius: var(--radius-lg);
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--violet-pale);
+}
+
+.about-illustration .big-emoji {
+  font-size: 100px;
+  position: relative;
+  z-index: 2;
+  animation: floatY 3s ease-in-out infinite;
+}
+
+.about-illustration .deco-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--violet);
+  opacity: 0.06;
+}
+
+.about-text .para {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.about-stat {
+  background: var(--violet-pale2);
+  border: 1.5px solid var(--violet-pale);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.about-stat-num {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 36px;
+  color: var(--violet);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.about-stat-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+/* ---- SKILLS ---- */
+.skills-section { background: var(--cream); }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.skill-category {
+  background: white;
+  border: 2px solid var(--gray-mid);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+}
+
+.skill-category:hover {
+  transform: translateY(-6px);
+  border-color: var(--violet);
+  box-shadow: var(--shadow-float);
+}
+
+.skill-cat-icon {
+  font-size: 36px;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.skill-cat-name {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.skill-icon {
+  font-size: 18px;
+  width: 32px;
   text-align: center;
+}
+
+.skill-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
+}
+
+.skill-bar-wrap {
+  width: 80px;
+  height: 6px;
+  background: var(--gray-light);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.skill-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--violet), var(--violet-light));
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.skill-bar.gold { background: linear-gradient(90deg, var(--gold-dark), var(--gold)); }
+
+/* ---- PROJECTS ---- */
+.projects-section { background: white; }
+
+.projects-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  border: 2px solid var(--gray-mid);
+  background: white;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.filter-btn.active, .filter-btn:hover {
+  background: var(--violet);
+  color: white;
+  border-color: var(--violet);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.project-card {
+  background: var(--cream);
+  border: 2px solid var(--gray-mid);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float);
+  border-color: var(--violet);
+}
+
+.project-thumb {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
   position: relative;
   overflow: hidden;
 }
-.cta-ghost {
+
+.project-thumb.p1 { background: linear-gradient(135deg, #1A0D45 0%, #582BDF 100%); }
+.project-thumb.p2 { background: linear-gradient(135deg, #0D2D1A 0%, #1D9E75 100%); }
+.project-thumb.p3 { background: linear-gradient(135deg, #45120D 0%, #D85A30 100%); }
+.project-thumb.p4 { background: linear-gradient(135deg, #2D0D2A 0%, #B33BAB 100%); }
+
+.project-thumb-deco {
+  position: absolute;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+
+.project-thumb-deco.d1 { top: -20px; right: -20px; width: 150px; height: 150px; }
+.project-thumb-deco.d2 { bottom: -30px; left: -10px; }
+
+.project-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: var(--gold);
+  color: var(--violet-darker);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.project-body {
+  padding: 24px;
+}
+
+.project-name {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.project-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.project-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tech-tag {
+  background: var(--violet-pale);
+  color: var(--violet-dark);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.project-links {
+  display: flex;
+  gap: 10px;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.project-link.primary {
+  background: var(--violet);
+  color: white;
+}
+
+.project-link.primary:hover { background: var(--violet-dark); transform: scale(1.05); }
+
+.project-link.secondary {
+  background: var(--gray-light);
+  color: var(--text-muted);
+}
+
+.project-link.secondary:hover { background: var(--gray-mid); }
+
+/* ---- ILLUSTRATIONS ---- */
+.illustrations-section { background: var(--cream); }
+
+.masonry-grid {
+  columns: 3;
+  column-gap: 20px;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid var(--gray-mid);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.masonry-item:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-float);
+  z-index: 2;
+  border-color: var(--violet);
+}
+
+.masonry-thumb {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  background: var(--violet-pale2);
+}
+
+.masonry-item:nth-child(3n+1) .masonry-thumb { background: linear-gradient(135deg, #EDE8FD, #D5C8FA); height: 200px; }
+.masonry-item:nth-child(3n+2) .masonry-thumb { background: linear-gradient(135deg, #FFF9D6, #FFE87A); height: 160px; }
+.masonry-item:nth-child(3n+3) .masonry-thumb { background: linear-gradient(135deg, #E1F5EE, #9FE1CB); height: 240px; }
+
+.masonry-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(88,43,223,0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 16px;
+  text-align: center;
+}
+
+.masonry-item:hover .masonry-overlay { opacity: 1; }
+
+/* ---- YOUTUBE ---- */
+.youtube-section { background: white; }
+
+.yt-banner {
+  background: linear-gradient(135deg, var(--violet) 0%, var(--violet-dark) 60%, var(--violet-darker) 100%);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.yt-banner::before {
+  content: '▶';
+  position: absolute;
+  font-size: 300px;
+  color: rgba(255,255,255,0.03);
+  right: -20px;
+  top: -80px;
+  font-weight: 900;
+}
+
+.yt-banner-info h3 {
+  font-size: 36px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.yt-banner-info p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 24px;
+}
+
+.yt-banner-stats {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.yt-stat {
+  text-align: left;
+}
+
+.yt-stat-num {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--gold);
+}
+
+.yt-stat-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.yt-subscribe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #FF0000;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s;
+  border: none;
+}
+
+.yt-subscribe-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(255,0,0,0.4);
+}
+
+.yt-avatar {
+  width: 140px;
+  height: 140px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  border: 3px solid rgba(255,210,30,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+
+.videos-row {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.videos-row::-webkit-scrollbar { height: 4px; }
+.videos-row::-webkit-scrollbar-track { background: var(--gray-light); border-radius: 2px; }
+.videos-row::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 2px; }
+
+.video-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+  background: var(--cream);
+  border: 2px solid var(--gray-mid);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.video-card:hover {
+  border-color: var(--violet);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+.video-thumb {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  position: relative;
+  background: var(--violet-pale2);
+}
+
+.video-play {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: clamp(80px, 17vw, 240px);
-  letter-spacing: 6px;
-  color: rgba(0,0,0,0.07);
-  pointer-events: none;
-  user-select: none;
+  background: rgba(88,43,223,0.0);
+  transition: background 0.2s;
 }
-.cta-block h2 {
-  font-family: var(--font-display);
-  font-size: clamp(46px, 9vw, 116px);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--white);
-  line-height: .88;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 14px;
-}
-.cta-block h2 .dim { color: rgba(255,255,255,0.3); }
-.cta-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 48px;
-  font-weight: 300;
-  position: relative;
-  z-index: 1;
-}
-.cta-btns {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 1;
-}
-.btn-white {
-  background: var(--white);
-  color: var(--red);
-  padding: 15px 44px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-radius: 1px;
-  transition: opacity .2s, transform .15s;
-}
-.btn-white:hover { opacity: .88; transform: scale(1.03); }
-.btn-outline-white {
-  border: 1.5px solid rgba(255,255,255,0.35);
-  color: var(--white);
-  padding: 13px 40px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-radius: 1px;
-  transition: background .2s;
-}
-.btn-outline-white:hover { background: rgba(255,255,255,0.1); }
 
-/* FOOTER */
-footer {
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  padding: 44px 6vw;
+.video-card:hover .video-play { background: rgba(88,43,223,0.3); }
+
+.play-btn {
+  width: 44px; height: 44px;
+  background: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.footer-logo {
-  font-family: var(--font-display);
-  font-size: 24px;
-  letter-spacing: 2px;
-}
-.footer-logo span { color: var(--red); }
-.footer-links {
-  display: flex;
-  gap: 28px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gray);
-}
-.footer-links a { transition: color .2s; }
-.footer-links a:hover { color: var(--white); }
-.footer-copy {
-  font-size: 10px;
-  color: #2e2e2e;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  transform: scale(0.8);
+  opacity: 0;
+  transition: all 0.2s;
 }
 
-/* REVEAL */
+.video-card:hover .play-btn {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.video-info { padding: 14px; }
+.video-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.video-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---- SOCIAL ---- */
+.social-section { background: var(--cream); }
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.social-card {
+  background: white;
+  border: 2px solid var(--gray-mid);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--violet);
+  transform: translateY(100%);
+  transition: transform 0.3s;
+  z-index: 0;
+}
+
+.social-card:hover::before { transform: translateY(0); }
+
+.social-card:hover {
+  border-color: var(--violet);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-float);
+}
+
+.social-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.2s;
+}
+
+.social-card:hover .social-icon { transform: scale(1.2); }
+
+.social-name {
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
+}
+
+.social-card:hover .social-name { color: white; }
+
+.social-handle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
+}
+
+.social-card:hover .social-handle { color: rgba(255,255,255,0.8); }
+
+/* ---- CONTACT ---- */
+.contact-section { background: white; }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.contact-form {
+  background: var(--cream);
+  border: 2px solid var(--gray-mid);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: white;
+  border: 2px solid var(--gray-mid);
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(88,43,223,0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-info { }
+
+.contact-card {
+  background: var(--violet-pale2);
+  border: 2px solid var(--violet-pale);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.contact-card:hover {
+  border-color: var(--violet);
+  transform: translateX(4px);
+}
+
+.contact-card-icon {
+  font-size: 32px;
+  width: 48px;
+  text-align: center;
+}
+
+.contact-card-text strong {
+  display: block;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.contact-card-text span {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.contact-illustration {
+  text-align: center;
+  font-size: 80px;
+  padding: 32px;
+  background: var(--violet-pale2);
+  border-radius: var(--radius-lg);
+  margin-top: 32px;
+  animation: floatY 3s ease-in-out infinite;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  background: var(--violet-darker);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 40px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+footer strong { color: var(--gold); }
+
+/* ---- DIVIDER ---- */
+.section-divider {
+  text-align: center;
+  font-size: 28px;
+  letter-spacing: 12px;
+  opacity: 0.2;
+  margin: 0 auto;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(32px);
-  transition: opacity .65s ease, transform .65s ease;
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.reveal.visible { opacity: 1; transform: none; }
-.reveal.d1 { transition-delay: .1s; }
-.reveal.d2 { transition-delay: .2s; }
-.reveal.d3 { transition-delay: .3s; }
-.reveal.d4 { transition-delay: .4s; }
 
-/* RESPONSIVE */
-@media (max-width: 960px) {
-  .hero { grid-template-columns: 1fr; padding-top: 90px; }
-  .hero-right { height: 300px; }
-  .about-layout { grid-template-columns: 1fr; }
-  .testi-grid { grid-template-columns: 1fr 1fr; }
-  .process-steps { grid-template-columns: repeat(2,1fr); }
-  .works-grid .w-card { grid-column: span 6 !important; }
+.reveal.visible {
+  opacity: 1;
+  transform: none;
 }
-@media (max-width: 640px) {
-  .nav-links { display: none; }
-  .services-grid { grid-template-columns: 1fr; }
-  .testi-grid { grid-template-columns: 1fr; }
-  .process-steps { grid-template-columns: 1fr; }
-  .tools-grid { grid-template-columns: 1fr; }
-  .works-grid .w-card { grid-column: span 12 !important; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .hero-inner, .about-grid, .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  nav a:not(.nav-cta):not([class="nav-logo"]) { display: none; }
+  .masonry-grid { columns: 2; }
+  .yt-banner { grid-template-columns: 1fr; }
+  .yt-avatar { display: none; }
+}
+
+@media (max-width: 600px) {
+  section { padding: 70px 20px; }
+  nav { padding: 8px 16px; top: 12px; }
+  .masonry-grid { columns: 1; }
+  .hero { padding: 100px 20px 60px; }
+}
+
+/* ---- GLOW EFFECTS ---- */
+.glow-violet {
+  box-shadow: 0 0 40px rgba(88,43,223,0.3), var(--shadow-float);
+}
+
+/* ---- THUMBNAIL SECTION ---- */
+.thumbs-section { background: var(--cream); }
+
+.thumbs-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.thumb-card {
+  flex: 0 0 220px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px solid var(--gray-mid);
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  cursor: pointer;
+  background: white;
+}
+
+.thumb-card:hover {
+  transform: scale(1.06);
+  box-shadow: var(--shadow-float);
+  border-color: var(--gold);
+  z-index: 2;
+  position: relative;
+}
+
+.thumb-img {
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  position: relative;
+}
+
+.thumb-img.t1 { background: linear-gradient(135deg, #582BDF, #FF6B6B); }
+.thumb-img.t2 { background: linear-gradient(135deg, #FFD21E, #FF8C00); }
+.thumb-img.t3 { background: linear-gradient(135deg, #1D9E75, #0D2D1A); }
+.thumb-img.t4 { background: linear-gradient(135deg, #B33BAB, #1A0D45); }
+.thumb-img.t5 { background: linear-gradient(135deg, #FF6B6B, #FFD21E); }
+
+.thumb-title {
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+/* STAR DECORATIONS */
+.star-deco {
+  position: absolute;
+  color: var(--gold);
+  font-size: 20px;
+  pointer-events: none;
+  animation: starSpin 6s linear infinite;
+}
+
+@keyframes starSpin {
+  from { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.3); }
+  to { transform: rotate(360deg) scale(1); }
 }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="progress-bar" id="prog"></div>
-
 <!-- NAV -->
 <nav>
-  <div class="logo">IKUWANNE<span>.</span></div>
-  <div class="nav-links">
-    <a href="#works">Works</a>
-    <a href="#about">À propos</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <a class="nav-cta" href="#contact">Travailler ensemble →</a>
+  <a href="#hero" class="nav-logo">Ikuwanne <span>✦</span></a>
+  <a href="#about">À propos</a>
+  <a href="#skills">Skills</a>
+  <a href="#projects">Projets</a>
+  <a href="#illustrations">Art</a>
+  <a href="#youtube">YouTube</a>
+  <a href="#contact" class="nav-cta">Contact</a>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-tag">
-      <span class="hero-tag-dot"></span>
-      Miniamkeuse &amp; Monteuse vidéo
+<section class="hero" id="hero">
+  <div class="hero-bg-blob b1"></div>
+  <div class="hero-bg-blob b2"></div>
+  <div class="hero-bg-blob b3"></div>
+
+  <!-- Floating decorations -->
+  <div class="floating-deco" style="top:15%;left:5%;">🎮</div>
+  <div class="floating-deco" style="top:25%;right:6%;">⚔️</div>
+  <div class="floating-deco" style="top:70%;left:4%;">🎨</div>
+  <div class="floating-deco" style="bottom:20%;right:8%;">🎲</div>
+  <div class="floating-deco" style="top:55%;left:48%;">🧪</div>
+  <div class="floating-deco" style="top:10%;left:38%;">✏️</div>
+  <div class="floating-deco" style="bottom:10%;left:20%;">⭐</div>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">✦ Portfolio créatif</div>
+      <h1 class="hero-title">
+        Salut, moi c'est<br>
+        <span class="name-highlight">Ikuwanne</span> 👋
+      </h1>
+      <div class="hero-roles">
+        <div class="hero-role">
+          <span class="badge purple">🎮 Game Dev</span>
+          Développeuse de jeux vidéo
+        </div>
+        <div class="hero-role">
+          <span class="badge">🎨 Art</span>
+          Illustratrice digitale
+        </div>
+        <div class="hero-role">
+          <span class="badge purple">🎬 Video</span>
+          Monteuse & créatrice de contenu
+        </div>
+      </div>
+      <p class="hero-desc">
+        Je crée des jeux, je dessine et je fais du montage. 
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">🎮 Voir mes projets</a>
+        <a href="#" class="btn btn-gold">▶ Ma chaîne YouTube</a>
+        <a href="#contact" class="btn btn-ghost">✉ Me contacter</a>
+      </div>
     </div>
-    <h1 class="hero-title">
-      JE DONNE<br>
-      VIE À <em>TES</em><br>
-      <span class="outline">VISUELS.</span>
-    </h1>
-    <p class="hero-sub">
-      Miniatures qui font <strong>exploser ton CTR</strong>. Montages qui gardent ton audience <strong>scotchée jusqu'au bout</strong>. Je crée ce qui fait cliquer — et regarder.
-    </p>
-    <div class="hero-btns">
-      <a class="btn-red" href="#works">Voir mes créations →</a>
-      <a class="btn-ghost" href="#contact">Me contacter</a>
+
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <div class="avatar-placeholder">
+          <div class="avatar-emoji">👩‍💻</div>
+          <div class="avatar-label">Ton illustration ici</div>
+        </div>
+        <div class="star-deco" style="top:20px;right:30px;font-size:16px;">✦</div>
+        <div class="star-deco" style="top:50px;right:60px;font-size:10px;animation-delay:2s;">★</div>
+        <div class="star-deco" style="bottom:30px;right:20px;font-size:22px;animation-delay:3s;">✦</div>
+      </div>
+      <div class="hero-card-body">
+        <div class="card-name">Ikuwanne</div>
+        <div class="card-title">Game Developer · Content Creator</div>
+        <div class="card-tags">
+          <span class="card-tag">Unity</span>
+          <span class="card-tag">Godot</span>
+          <span class="card-tag gold">Illustration</span>
+          <span class="card-tag">C#</span>
+          <span class="card-tag gold">YouTube</span>
+        </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="hero-card hero-card-main">
-      <div class="card-inner">MONTAGE</div>
-      <span class="red-badge">Featured</span>
-      <div class="play-icon"></div>
-      <div class="card-label">Montage vidéo · <span>YouTube</span></div>
-    </div>
-    <div class="hero-card hero-card-sm1">
-      <div class="card-inner-sm">MINI</div>
-      <div class="card-label">Miniature · <span>CTR ×3</span></div>
-    </div>
-    <div class="hero-card hero-card-sm2">
-      <div class="card-inner-sm">EDIT</div>
-      <div class="card-label">Short-form · <span>Reel</span></div>
+</section>
+
+
+<!-- SKILLS -->
+<section class="skills-section reveal" id="skills">
+  <div class="section-inner">
+    <div class="section-tag">⚡ Compétences</div>
+    <h2 class="section-title">Mon <span class="hl">arsenal</span> créatif</h2>
+    <p class="section-desc">Voici toutes les compétences et logiciels que je maitrise</p>
+    <div class="skills-grid">
+
+      <div class="skill-category">
+        <span class="skill-cat-icon">💻</span>
+        <div class="skill-cat-name">Développement</div>
+        <div class="skill-item"><span class="skill-icon">🎮</span><span class="skill-name">C#</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">⚙️</span><span class="skill-name">Unity</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">🤖</span><span class="skill-name">Godot</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+      </div>
+
+      <div class="skill-category">
+        <span class="skill-cat-icon">🎬</span>
+        <div class="skill-cat-name">Création de contenue</div>
+        <div class="skill-item"><span class="skill-icon">✂️</span><span class="skill-name">Premier pro</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="skill-icon">🎭</span><span class="skill-name">Photshop</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+      </div>
+
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- MARQUEE 1 -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="m-item"><span class="m-dot"></span>Miniatures YouTube</span>
-    <span class="m-item"><span class="m-dot"></span>Montage Vidéo</span>
-    <span class="m-item"><span class="m-dot"></span>Reels & Shorts</span>
-    <span class="m-item"><span class="m-dot"></span>Color Grading</span>
-    <span class="m-item"><span class="m-dot"></span>Motion Graphics</span>
-    <span class="m-item hot"><span class="m-dot"></span>Disponible pour missions</span>
-    <span class="m-item"><span class="m-dot"></span>Adobe Premiere</span>
-    <span class="m-item"><span class="m-dot"></span>After Effects</span>
-    <span class="m-item"><span class="m-dot"></span>Photoshop</span>
-    <span class="m-item"><span class="m-dot"></span>Miniatures YouTube</span>
-    <span class="m-item"><span class="m-dot"></span>Montage Vidéo</span>
-    <span class="m-item"><span class="m-dot"></span>Reels & Shorts</span>
-    <span class="m-item"><span class="m-dot"></span>Color Grading</span>
-    <span class="m-item"><span class="m-dot"></span>Motion Graphics</span>
-    <span class="m-item hot"><span class="m-dot"></span>Disponible pour missions</span>
-    <span class="m-item"><span class="m-dot"></span>Adobe Premiere</span>
-    <span class="m-item"><span class="m-dot"></span>After Effects</span>
-    <span class="m-item"><span class="m-dot"></span>Photoshop</span>
-  </div>
-</div>
+<!-- PROJECTS -->
+<section class="projects-section reveal" id="projects">
+  <div class="section-inner">
+    <div class="section-tag">🎮 Projets</div>
+    <h2 class="section-title">Mes <span class="hl">jeux vidéo</span></h2>
+    <p class="section-desc">Depuis la 6eme j'ai crées enormement de jeux-videos. Voici les projets dont je suis le plus fier</p>
 
-<!-- WORKS -->
-<section class="section" id="works">
-  <div class="sec-label reveal">Portfolio</div>
-  <div class="sec-title reveal">Mes dernières<br><em>créations.</em></div>
-  <div class="works-grid">
 
-    <div class="w-card reveal">
-      <div class="w-thumb">
-        <div class="w-thumb-bg" style="background:linear-gradient(135deg,#1a0008,#2d0012);color:rgba(232,0,61,0.13)">MONTAGE</div>
-        <span class="w-type">Montage</span>
-        <div class="w-play"><div class="w-play-btn"></div></div>
-      </div>
-      <div class="w-body">
-        <div>
-          <div class="w-title">Vlog cinématique — Voyage Japon</div>
-          <div class="w-meta">Montage · Color grading · 2024</div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-thumb p1">
+          <div class="project-thumb-deco d1"></div>
+          <div class="project-thumb-deco d2"></div>
+          <span style="font-size:64px;position:relative;z-index:2;">🐸</span>
+          <div class="project-badge">Game Jam</div>
         </div>
-        <div class="w-arrow">↗</div>
-      </div>
-    </div>
-
-    <div class="w-card reveal d1">
-      <div class="w-thumb">
-        <div class="w-thumb-bg" style="background:linear-gradient(135deg,#0d0012,#1a0020);color:rgba(180,80,255,0.12)">MINI</div>
-        <span class="w-type">Miniature</span>
-      </div>
-      <div class="w-body">
-        <div>
-          <div class="w-title">Pack miniatures Gaming</div>
-          <div class="w-meta">Photoshop · ×8 miniatures</div>
-        </div>
-        <div class="w-arrow">↗</div>
-      </div>
-    </div>
-
-    <div class="w-card reveal d1">
-      <div class="w-thumb">
-        <div class="w-thumb-bg" style="background:linear-gradient(135deg,#001a10,#002a18);color:rgba(0,200,100,0.1)">SHORT</div>
-        <span class="w-type">Short-form</span>
-      </div>
-      <div class="w-body">
-        <div>
-          <div class="w-title">Reels lifestyle × 12</div>
-          <div class="w-meta">Instagram · TikTok · 2024</div>
-        </div>
-        <div class="w-arrow">↗</div>
-      </div>
-    </div>
-
-    <div class="w-card reveal d2">
-      <div class="w-thumb">
-        <div class="w-thumb-bg" style="background:linear-gradient(135deg,#1a1000,#2a1a00);color:rgba(255,180,0,0.1)">BRAND</div>
-        <span class="w-type">Branding vidéo</span>
-      </div>
-      <div class="w-body">
-        <div>
-          <div class="w-title">Intro animée — Chaîne Tech</div>
-          <div class="w-meta">After Effects · Motion</div>
-        </div>
-        <div class="w-arrow">↗</div>
-      </div>
-    </div>
-
-    <div class="w-card reveal d3">
-      <div class="w-thumb">
-        <div class="w-thumb-bg" style="background:linear-gradient(135deg,#00101a,#001a2d);color:rgba(0,150,255,0.1)">EDIT</div>
-        <span class="w-type">Miniature</span>
-      </div>
-      <div class="w-body">
-        <div>
-          <div class="w-title">Miniature Podcast — Talk</div>
-          <div class="w-meta">Photoshop · 2023</div>
-        </div>
-        <div class="w-arrow">↗</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- MARQUEE 2 -->
-<div class="marquee-wrap" style="transform:rotate(-0.6deg);margin:-6px 0;position:relative;z-index:1">
-  <div class="marquee-track rev">
-    <span class="m-item hot"><span class="m-dot"></span>CTR boosté garanti</span>
-    <span class="m-item"><span class="m-dot"></span>Délais respectés</span>
-    <span class="m-item"><span class="m-dot"></span>Rendu pro</span>
-    <span class="m-item"><span class="m-dot"></span>Remote friendly</span>
-    <span class="m-item"><span class="m-dot"></span>Révisions incluses</span>
-    <span class="m-item hot"><span class="m-dot"></span>CTR boosté garanti</span>
-    <span class="m-item"><span class="m-dot"></span>Délais respectés</span>
-    <span class="m-item"><span class="m-dot"></span>Rendu pro</span>
-    <span class="m-item"><span class="m-dot"></span>Remote friendly</span>
-    <span class="m-item"><span class="m-dot"></span>Révisions incluses</span>
-    <span class="m-item hot"><span class="m-dot"></span>CTR boosté garanti</span>
-    <span class="m-item"><span class="m-dot"></span>Délais respectés</span>
-    <span class="m-item"><span class="m-dot"></span>Rendu pro</span>
-    <span class="m-item"><span class="m-dot"></span>Remote friendly</span>
-    <span class="m-item"><span class="m-dot"></span>Révisions incluses</span>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section class="section" id="about">
-  <div class="about-layout">
-    <div class="about-photo reveal">
-      <div class="about-frame">
-        <div class="about-initials">IKU</div>
-        <div class="about-name-ghost">IKUWANNE</div>
-        <div class="about-corner"></div>
-        <div class="about-corner2"></div>
-      </div>
-      <div class="about-stat-row">
-        <div class="about-stat">
-          <div class="about-stat-n" id="as1">0<span>+</span></div>
-          <div class="about-stat-l">Projets</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-n" id="as2">0<span>%</span></div>
-          <div class="about-stat-l">Satisfaits</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-n" id="as3">0<span>ans</span></div>
-          <div class="about-stat-l">Expérience</div>
-        </div>
-      </div>
-    </div>
-    <div class="about-text">
-      <div class="sec-label reveal">À propos de moi</div>
-      <div class="sec-title reveal" style="margin-bottom:32px">Je crée des visuels<br>qui font <em>cliquer.</em></div>
-      <p class="reveal">Je m'appelle <strong>Ikuwanne</strong>, miniamkeuse et monteuse vidéo freelance. Je me spécialise dans la création de contenu visuel percutant pour les créateurs YouTube, les marques et les influenceurs.</p>
-      <p class="reveal d1">Mon truc ? <strong>Comprendre ton audience avant de créer.</strong> Une miniature ne se crée pas au feeling — elle se construit autour de la psychologie du clic, des couleurs, du contraste, et du message ultra-clair.</p>
-      <p class="reveal d2">Pour le montage, je travaille à <strong>rythmer tes vidéos</strong> pour que le spectateur reste jusqu'au bout. Cuts dynamiques, musique synchronisée, color grading soigné : chaque seconde est pensée.</p>
-      <div class="tools-grid reveal d1">
-        <div class="tool-item">
-          <div class="tool-icon"></div>
-          <div>
-            <div class="tool-name">Adobe Premiere Pro</div>
-            <div class="tool-type">Montage vidéo</div>
+        <div class="project-body">
+          <div class="project-name">Undertoad</div>
+          <p class="project-desc"> Undertoad est un jeu de plateforme et de réflexion où vous incarnez une petite grenouille prisonnière d'une grotte sous-marine. Elle peut contrôler la marée pour résoudre des énigmes.. Développé en 72h pour une vidéo youtube.</p>
+          <div class="project-techs">
+            <span class="tech-tag">Godot</span>
+            <span class="tech-tag">GDscript</span>
+            <span class="tech-tag">Pixel Art</span>
           </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon"></div>
-          <div>
-            <div class="tool-name">After Effects</div>
-            <div class="tool-type">Motion graphics</div>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon"></div>
-          <div>
-            <div class="tool-name">Photoshop</div>
-            <div class="tool-type">Miniatures</div>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon"></div>
-          <div>
-            <div class="tool-name">DaVinci Resolve</div>
-            <div class="tool-type">Color grading</div>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon"></div>
-          <div>
-            <div class="tool-name">CapCut Pro</div>
-            <div class="tool-type">Short-form</div>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon"></div>
-          <div>
-            <div class="tool-name">Illustrator</div>
-            <div class="tool-type">Typo &amp; vecteurs</div>
+          <div class="project-links">
+            <a href="https://ikuwann3.itch.io/undertoad" class="project-link primary">▶ Jouer</a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- SERVICES -->
-<section class="section" id="services" style="padding-top:0">
-  <div class="sec-label reveal">Mes offres</div>
-  <div class="sec-title reveal">Ce que je<br><em>propose.</em></div>
-  <div class="services-grid">
-    <div class="svc reveal">
-      <div class="svc-num">01</div>
-      <div class="svc-title">Miniatures YouTube</div>
-      <div class="svc-desc">Des miniatures conçues pour maximiser ton taux de clic. Composition percutante, typographie lisible en petit format, couleurs qui pop dans le feed.</div>
-      <div class="svc-tags">
-        <span class="svc-tag">Photoshop</span>
-        <span class="svc-tag">CTR</span>
-        <span class="svc-tag">A/B Testing</span>
-      </div>
-    </div>
-    <div class="svc reveal d1">
-      <div class="svc-num">02</div>
-      <div class="svc-title">Montage long-format</div>
-      <div class="svc-desc">Vlogs, tutos, interviews — je monte tes vidéos YouTube avec rythme, dynamisme et intention. Chaque cut est justifié, chaque transition pensée.</div>
-      <div class="svc-tags">
-        <span class="svc-tag">Premiere Pro</span>
-        <span class="svc-tag">Color Grading</span>
-        <span class="svc-tag">Sound Design</span>
-      </div>
-    </div>
-    <div class="svc reveal">
-      <div class="svc-num">03</div>
-      <div class="svc-title">Short-form (Reels & Shorts)</div>
-      <div class="svc-desc">Contenu vertical ultra-rythmé pour TikTok, Instagram Reels et YouTube Shorts. Format qui accroche dans les 3 premières secondes, garanti.</div>
-      <div class="svc-tags">
-        <span class="svc-tag">CapCut</span>
-        <span class="svc-tag">Vertical</span>
-        <span class="svc-tag">Hooks</span>
-      </div>
-    </div>
-    <div class="svc reveal d1">
-      <div class="svc-num">04</div>
-      <div class="svc-title">Pack créateur complet</div>
-      <div class="svc-desc">Miniatures + montages + éléments graphiques (intro, outro, banners). Un univers visuel cohérent pour ta chaîne de A à Z.</div>
-      <div class="svc-tags">
-        <span class="svc-tag">Branding</span>
-        <span class="svc-tag">Pack complet</span>
-        <span class="svc-tag">Suivi mensuel</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section class="section" style="padding-top:0">
-  <div class="sec-label reveal">Comment ça marche</div>
-  <div class="sec-title reveal">Mon processus.</div>
-  <div class="process-steps">
-    <div class="step reveal">
-      <div class="step-n">01</div>
-      <div class="step-title">Brief & Analyse</div>
-      <div class="step-desc">On discute de ton contenu, ta niche, ton audience cible et tes objectifs. Je regarde tes anciennes vidéos pour comprendre ce qui marche.</div>
-    </div>
-    <div class="step reveal d1">
-      <div class="step-n">02</div>
-      <div class="step-title">Concept & Direction</div>
-      <div class="step-desc">Je propose plusieurs directions créatives (visuelles et narratives) avant de commencer. Tu valides, on affine.</div>
-    </div>
-    <div class="step reveal d2">
-      <div class="step-n">03</div>
-      <div class="step-title">Création & Livraison</div>
-      <div class="step-desc">Je crée dans les délais convenus. Tu reçois une première version complète avec possibilité de révisions incluses.</div>
-    </div>
-    <div class="step reveal d3">
-      <div class="step-n">04</div>
-      <div class="step-title">Retours & Finalisation</div>
-      <div class="step-desc">On affine ensemble jusqu'à ce que ce soit parfait. Livraison des fichiers finaux en haute qualité, prêts à publier.</div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="section" style="padding-top:0">
-  <div class="sec-label reveal">Avis clients</div>
-  <div class="sec-title reveal">Ils témoignent.</div>
-  <div class="testi-grid">
-    <div class="testi reveal">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-quote">"Mes miniatures ont <strong>triplé mon CTR</strong> en 2 semaines. Ikuwanne comprend vraiment la psychologie du clic. Indispensable pour tout créateur sérieux."</p>
-      <div class="testi-author">
-        <div class="testi-av">ML</div>
-        <div>
-          <div class="testi-n">Marc L.</div>
-          <div class="testi-r">YouTubeur Gaming — 85K abonnés</div>
+<div class="projects-grid">
+      <div class="project-card">
+        <div class="project-thumb p1">
+          <div class="project-thumb-deco d1"></div>
+          <div class="project-thumb-deco d2"></div>
+          <span style="font-size:64px;position:relative;z-index:2;">🏗️</span>
+          <div class="project-badge">Game Jam</div>
+        </div>
+        <div class="project-body">
+          <div class="project-name">Higher Together</div>
+          <p class="project-desc">Higher Together est un jeu de type puzzle/construction créé pour la GMTK Game Jam 2024, dont le thème était : Construire à l'échelle</p>
+          <div class="project-techs">
+            <span class="tech-tag">Unity</span>
+            <span class="tech-tag">C#</span>
+            <span class="tech-tag">Pixel Art</span>
+          </div>
+          <div class="project-links">
+            <a href="https://ikuwann3.itch.io/higher-together" class="project-link primary">▶ Jouer</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="testi reveal d1">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-quote">"Le montage était au-delà de ce que j'espérais. <strong>Rythme parfait, color grading incroyable</strong>. Ma vidéo a explosé et je sais pourquoi. Je reviendrai toujours."</p>
-      <div class="testi-author">
-        <div class="testi-av">SA</div>
-        <div>
-          <div class="testi-n">Sofia A.</div>
-          <div class="testi-r">Lifestyle Créatrice — 42K abonnés</div>
-        </div>
-      </div>
-    </div>
-    <div class="testi reveal d2">
-      <div class="testi-stars">★★★★★</div>
-      <p class="testi-quote">"Réactive, pro, créative. Elle a <strong>compris mon univers dès le départ</strong> et livré en avance. Le pack miniatures est cohérent et ultra-accrocheur. Merci !"</p>
-      <div class="testi-author">
-        <div class="testi-av">KD</div>
-        <div>
-          <div class="testi-n">Kevin D.</div>
-          <div class="testi-r">Finance & Business — 120K abonnés</div>
-        </div>
-      </div>
+
+
+         </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-block" id="contact">
-  <div class="cta-ghost">GO</div>
-  <h2>ON CRÉE<br><span class="dim">QUELQUE CHOSE</span><br>ENSEMBLE ?</h2>
-  <p class="cta-sub">Miniature, montage, pack complet — parlons de ton projet.</p>
-  <div class="cta-btns">
-    <a class="btn-white" href="mailto:ikuwanne@gmail.com">M'écrire un message →</a>
-    <a class="btn-outline-white" href="https://instagram.com" target="_blank">Instagram</a>
+
+<!-- THUMBNAILS -->
+<section class="thumbs-section reveal" id="thumbnails">
+  <div class="section-inner">
+    <div class="section-tag">🖼️ Miniatures YouTube</div>
+    <h2 class="section-title">Des <span class="hl-gold">miniatures</span> qui font cliquer</h2>
+    <p class="section-desc">Je crée des miniature depuis peu. Peut-etre qu'un jour je ferai vos miniature. Voici mes créations.</p>
+
+    <div class="thumbs-row">
+      <div class="thumb-card"><div class="thumb-img t1">🎮</div><div class="thumb-title">Je m’ennuyais donc j’ai CREER un JEUX-VIDEO en 72H</div></div>
+      <div class="thumb-card"><div class="thumb-img t2">⭐</div><div class="thumb-title">C'est La MERDE ! (Récap France-Cote d'Ivoire)</div></div>
+      <div class="thumb-card"><div class="thumb-img t3">🌿</div><div class="thumb-title">POURQUOI Vous ne DEVEZ pas vivre HEUREUX</div></div>
+    </div>
   </div>
 </section>
+
+<!-- YOUTUBE -->
+<section class="youtube-section reveal" id="youtube">
+  <div class="section-inner">
+    <div class="section-tag">▶ YouTube</div>
+    <h2 class="section-title">Ma <span class="hl">chaîne</span></h2>
+    <p class="section-desc">Sur cette chaine je partage tout ce que j'ai fais dans le monde du jeux-vidéo.</p>
+
+    <div class="yt-banner">
+      <div class="yt-banner-info">
+        <h3>Ikuwanne 🎮</h3>
+        <p>Game dev</p>
+         </div>
+        <button class="yt-subscribe-btn">▶ S'abonner</button>
+      </div>
+    </div>
+
+
+<!-- SOCIAL -->
+<section class="social-section reveal" id="social">
+  <div class="section-inner">
+    <div class="section-tag">🌐 Réseaux</div>
+    <h2 class="section-title">Me retrouver <span class="hl">partout</span></h2>
+    <p class="section-desc">Je suis active sur plusieurs plateformes — viens me dire bonjour !</p>
+
+    <div class="social-grid">
+      <a href="https://www.youtube.com/@IKUWANN3" class="social-card">
+        <span class="social-icon">▶</span>
+        <div class="social-name">YouTube</div>
+        <div class="social-handle">@ikuwanne</div>
+      </a>
+      <a href="https://www.instagram.com/ikuwanne/" class="social-card">
+        <span class="social-icon">📸</span>
+        <div class="social-name">Instagram</div>
+        <div class="social-handle">@ikuwanne.art</div>
+      </a>
+      <a href="https://www.tiktok.com/@ikuwanne" class="social-card">
+        <span class="social-icon">🎵</span>
+        <div class="social-name">TikTok</div>
+        <div class="social-handle">@ikuwanne</div>
+      </a>
+    </div>
+  </div>
+</section>
+
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">IKUWANNE<span>.</span></div>
-  <div class="footer-links">
-    <a href="#works">Works</a>
-    <a href="#about">À propos</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <div class="footer-copy">© 2024 — Miniamkeuse &amp; Monteuse</div>
+  <p>Made with <strong>💜 & ☕</strong> by <strong>Ikuwanne</strong> — Game Dev · Créatrice de contenu</p>
+  <p style="margin-top:8px;font-size:12px;opacity:0.5;">© 2026 Ikuwanne. Tous droits réservés.</p>
 </footer>
 
 <script>
-/* CURSOR */
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
-});
-(function loop() {
-  rx += (mx - rx) * .11; ry += (my - ry) * .11;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(loop);
-})();
-document.querySelectorAll('a, .w-card, .testi, .svc, .tool-item').forEach(el => {
-  el.addEventListener('mouseenter', () => { cur.classList.add('big'); ring.classList.add('big'); });
-  el.addEventListener('mouseleave', () => { cur.classList.remove('big'); ring.classList.remove('big'); });
-});
-
-/* PROGRESS */
-const prog = document.getElementById('prog');
-window.addEventListener('scroll', () => {
-  prog.style.width = (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.closest('.projects-filters, div').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
 });
 
-/* REVEAL */
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
-}, { threshold: .1 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// Skill bars animate on scroll
+const skillBars = document.querySelectorAll('.skill-bar');
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const bar = e.target;
+      const target = bar.style.width;
+      bar.style.width = '0%';
+      setTimeout(() => { bar.style.width = target; }, 200);
+      barObserver.unobserve(bar);
+    }
+  });
+}, { threshold: 0.5 });
+skillBars.forEach(b => { barObserver.observe(b); });
 
-/* COUNTERS */
-function count(el, target, dur, suffix) {
-  let s = null;
-  const fn = ts => {
-    if (!s) s = ts;
-    const p = Math.min((ts - s) / dur, 1);
-    const v = Math.floor((1 - Math.pow(1 - p, 3)) * target);
-    el.innerHTML = v + '<span>' + suffix + '</span>';
-    if (p < 1) requestAnimationFrame(fn);
-    else el.innerHTML = target + '<span>' + suffix + '</span>';
-  };
-  requestAnimationFrame(fn);
-}
-let counted = false;
-const aboutObs = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting && !counted) {
-    counted = true;
-    count(document.getElementById('as1'), 60, 1400, '+');
-    count(document.getElementById('as2'), 100, 1500, '%');
-    count(document.getElementById('as3'), 3, 900, 'ans');
-  }
-}, { threshold: .3 });
-const aboutSection = document.getElementById('about');
-if (aboutSection) aboutObs.observe(aboutSection);
-
-/* NAV highlight */
-const secs = document.querySelectorAll('section[id]');
-const nlinks = document.querySelectorAll('.nav-links a');
-window.addEventListener('scroll', () => {
-  let cur_ = '';
-  secs.forEach(s => { if (scrollY >= s.offsetTop - 90) cur_ = s.id; });
-  nlinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur_ ? 'var(--white)' : ''; });
-}, { passive: true });
+// Floating deco parallax
+window.addEventListener('mousemove', (e) => {
+  const mx = (e.clientX / window.innerWidth - 0.5) * 20;
+  const my = (e.clientY / window.innerHeight - 0.5) * 20;
+  document.querySelectorAll('.floating-deco').forEach((el, i) => {
+    const factor = (i % 3 + 1) * 0.4;
+    el.style.transform = `translateX(${mx * factor}px) translateY(${my * factor}px)`;
+  });
+});
 </script>
 </body>
 </html>
